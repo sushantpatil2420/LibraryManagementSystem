@@ -1,8 +1,11 @@
 package com.project.library.controller;
 
+import com.project.library.dto.BorrowRecordDTO;
 import com.project.library.entity.BorrowRecord;
 import com.project.library.service.BorrowRecordService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/borrow")
@@ -26,5 +29,29 @@ public class BorrowRecordController {
     @PutMapping("/return/{borrowRecordId}")
     public BorrowRecord returnBook(@PathVariable Long borrowRecordId) {
         return borrowRecordService.returnBook(borrowRecordId);
+    }
+
+    // FULL BORROW HISTORY FOR A MEMBER
+    @GetMapping("/history/member/{memberId}")
+    public List<BorrowRecordDTO> getBorrowHistoryByMember(@PathVariable Long memberId) {
+        return borrowRecordService.getBorrowHistoryByMember(memberId);
+    }
+
+    // FULL BORROW HISTORY FOR A BOOK
+    @GetMapping("/history/book/{bookId}")
+    public List<BorrowRecordDTO> getBorrowHistoryByBook(@PathVariable Long bookId) {
+        return borrowRecordService.getBorrowHistoryByBook(bookId);
+    }
+
+    // ALL CURRENTLY BORROWED BOOKS
+    @GetMapping("/active")
+    public List<BorrowRecordDTO> getActiveBorrows() {
+        return borrowRecordService.getActiveBorrows();
+    }
+
+    // ALL OVERDUE BOOKS
+    @GetMapping("/overdue")
+    public List<BorrowRecordDTO> getOverdueBorrows() {
+        return borrowRecordService.getOverdueBorrows();
     }
 }

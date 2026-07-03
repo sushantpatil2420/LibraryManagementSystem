@@ -1,5 +1,6 @@
 package com.project.library.service;
 
+import com.project.library.dto.BorrowRecordDTO;
 import com.project.library.entity.Book;
 import com.project.library.entity.BorrowRecord;
 import com.project.library.entity.Member;
@@ -9,6 +10,8 @@ import com.project.library.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BorrowRecordService {
@@ -65,26 +68,71 @@ public class BorrowRecordService {
 
     // RETURN BOOK SERVICE
     public BorrowRecord returnBook(Long borrowRecordId) {
-         BorrowRecord borrowRecord = borrowRecordRepository.findById(borrowRecordId)
-                 .orElseThrow(()->
-                         new RuntimeException("Borrow Record Not Found"));
+        BorrowRecord borrowRecord = borrowRecordRepository.findById(borrowRecordId)
+                .orElseThrow(()->
+                        new RuntimeException("Borrow Record Not Found"));
 
-         if (borrowRecord.getReturnDate() != null) {
-             throw new RuntimeException("Book Already Returned");
-         }
+        if (borrowRecord.getReturnDate() != null) {
+            throw new RuntimeException("Book Already Returned");
+        }
 
-         borrowRecord.setReturnDate(LocalDate.now());
+        borrowRecord.setReturnDate(LocalDate.now());
 
-         Book book = borrowRecord.getBook();
-         book.setAvailableCopies(
-                 book.getAvailableCopies() + 1
-         );
+        Book book = borrowRecord.getBook();
+        book.setAvailableCopies(
+                book.getAvailableCopies() + 1
+        );
 
-         // SAVE UPDATED BOOK
+        // SAVE UPDATED BOOK
         bookRepository.save(book);
 
         // Save updated borrow record
         return borrowRecordRepository.save(borrowRecord);
     }
 
+    // CONVERT ENTITY TO DTO
+    private BorrowRecordDTO convertToDTO(BorrowRecord borrowRecord) {
+        return new BorrowRecordDTO(
+                borrowRecord.getBorrowRecordId(),
+                borrowRecord.getMember().getMemberId(),
+                borrowRecord.getMember().getMemberName(),
+                borrowRecord.getBook().getBookId(),
+                borrowRecord.getBook().getBookTitle(),
+                borrowRecord.getBorrowDate(),
+                borrowRecord.getDueDate(),
+                borrowRecord.getReturnDate()
+        );
+    }
+
+    // FULL BORROW HISTORY FOR A MEMBER
+    public List<BorrowRecordDTO> getBorrowHistoryByMember(Long memberId) {
+        return borrowRecordRepository.findByMember_MemberId(memberId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // FULL BORROW HISTORY FOR A BOOK
+    public List<BorrowRecordDTO> getBorrowHistoryByBook(Long bookId) {
+        return borrowRecordRepository.findByBook_BookId(bookId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // ALL CURRENTLY BORROWED BOOKS (NOT RETURNED)
+    public List<BorrowRecordDTO> getActiveBorrows() {
+        return borrowRecordRepository.findByReturnDateIsNull()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // ALL OVERDUE BOOKS
+    public List<BorrowRecordDTO> getOverdueBorrows() {
+        return borrowRecordRepository.findByReturnDateIsNullAndDueDateBefore(LocalDate.now())
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 }
