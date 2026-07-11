@@ -48,4 +48,16 @@ public class BookController {
     public Book searchBookByIsbn(@PathVariable String isbn) {
         return bookService.searchBookByIsbn(isbn);
     }
+
+    // SEARCH BOOKS BY CATEGORY
+    @GetMapping("/category/{categoryName}")
+    public List<Book> searchBooksByCategory(@PathVariable String categoryName) {
+        return bookService.searchBookByCategory(categoryName);
+    }
+
+    // SEARCH BOOKS BY AUTHOR
+    @GetMapping("/author/{authorName}")
+    public List<Book> searchBookByAuthor(@PathVariable String authorName) {
+        return bookService.searchBookByAuthor(authorName);
+    }
 }

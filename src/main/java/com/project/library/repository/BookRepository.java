@@ -13,4 +13,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // SEARCH BOOK BY ISBN
     Book findByIsbn(String isbn);
+
+    // SEARCH BOOKS BY CATEGORY NAME
+    List<Book> findByCategory_CategoryName(String categoryName);
+
+    // SEARCH BOOKS BY AUTHOR NAME
+    List<Book> findByAuthors_AuthorName(String authorName);
 }

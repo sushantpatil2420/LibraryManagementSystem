@@ -1,5 +1,6 @@
 package com.project.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Author {
     private String authorName;
 
     @ManyToMany(mappedBy = "authors")
+    @JsonIgnore
     private List<Book> books;
 
     public Author() {

@@ -45,4 +45,15 @@ public class BookService {
     public Book searchBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }
+
+    // SEARCH BOOKS BY CATEGORY NAME
+    public List<Book> searchBookByCategory(String categoryName) {
+        return bookRepository.findByCategory_CategoryName(categoryName);
+    }
+
+    // SEARCH BOOKS BY AUTHOR NAME
+    public List<Book> searchBookByAuthor(String authorName) {
+        return bookRepository.findByAuthors_AuthorName(authorName);
+    }
+
 }
