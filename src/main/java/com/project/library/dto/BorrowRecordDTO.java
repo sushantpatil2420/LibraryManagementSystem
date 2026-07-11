@@ -12,10 +12,11 @@ public class BorrowRecordDTO {
     private LocalDate borrowDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
+    private Double fineAmount;
 
     public BorrowRecordDTO(Long borrowRecordId, Long memberId, String memberName,
                            Long bookId, String bookTitle, LocalDate borrowDate,
-                           LocalDate dueDate, LocalDate returnDate) {
+                           LocalDate dueDate, LocalDate returnDate, Double fineAmount) {
         this.borrowRecordId = borrowRecordId;
         this.memberId = memberId;
         this.memberName = memberName;
@@ -24,6 +25,7 @@ public class BorrowRecordDTO {
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
+        this.fineAmount = fineAmount;
     }
 
     public Long getBorrowRecordId() {
@@ -88,5 +90,13 @@ public class BorrowRecordDTO {
 
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public Double getFineAmount() {
+        return fineAmount;
+    }
+
+    public void setFineAmount(Double fineAmount) {
+        this.fineAmount = fineAmount;
     }
 }

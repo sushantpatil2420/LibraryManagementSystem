@@ -10,6 +10,7 @@ import com.project.library.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ public class BorrowRecordService {
     private final BorrowRecordRepository borrowRecordRepository;
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
+
+    private static final double FINE_PER_DAY = 5.0;
 
     //CONSTRUCTOR INJECTION
     public BorrowRecordService(
@@ -90,6 +93,22 @@ public class BorrowRecordService {
         return borrowRecordRepository.save(borrowRecord);
     }
 
+    // CALCULATE FINE FOR A BORROW RECORD
+    private Double calculateFine(BorrowRecord borrowRecord) {
+        LocalDate dueDate = borrowRecord.getDueDate();
+        LocalDate returnDate = borrowRecord.getReturnDate();
+
+        // IF NOT YET RETURNED, COMPARE DUE DATE TO TODAY
+        LocalDate compareDate = (returnDate != null) ? returnDate : LocalDate.now();
+
+        if (compareDate.isAfter(dueDate)) {
+            long daysLate = ChronoUnit.DAYS.between(dueDate, compareDate);
+            return daysLate * FINE_PER_DAY;
+        }
+
+        return 0.0;
+    }
+
     // CONVERT ENTITY TO DTO
     private BorrowRecordDTO convertToDTO(BorrowRecord borrowRecord) {
         return new BorrowRecordDTO(
@@ -100,7 +119,8 @@ public class BorrowRecordService {
                 borrowRecord.getBook().getBookTitle(),
                 borrowRecord.getBorrowDate(),
                 borrowRecord.getDueDate(),
-                borrowRecord.getReturnDate()
+                borrowRecord.getReturnDate(),
+                calculateFine(borrowRecord)
         );
     }
 
