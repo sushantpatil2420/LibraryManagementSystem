@@ -1,11 +1,11 @@
 package com.project.library.service;
 
 import com.project.library.entity.Book;
+import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -27,12 +27,17 @@ public class BookService {
     }
 
     //GET BOOK BY ID
-    public Optional<Book> getBookById(Long bookId){
-        return bookRepository.findById(bookId);
+    public Book getBookById(Long bookId){
+        return bookRepository.findById(bookId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Book not found"));
     }
 
     //DELETE BOOK BY ID
     public void deleteBook(Long bookId){
+        if (!bookRepository.existsById(bookId)) {
+            throw new ResourceNotFoundException("Book not found");
+        }
         bookRepository.deleteById(bookId);
     }
 

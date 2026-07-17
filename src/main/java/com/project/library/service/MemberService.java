@@ -1,6 +1,7 @@
 package com.project.library.service;
 
 import com.project.library.entity.Member;
+import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,18 @@ public class MemberService {
     }
 
     //  GET MEMBER BY ID
-    public Optional<Member> getMemberById(Long memberId) {
-        return memberRepository.findById(memberId);
+    public Member getMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Member not found"));
     }
 
     //  DELETE MEMBER
     public void deleteMember(Long memberId) {
+        if (!memberRepository.existsById(memberId)){
+            throw new ResourceNotFoundException("Member not found");
+        }
+
         memberRepository.deleteById(memberId);
     }
 }

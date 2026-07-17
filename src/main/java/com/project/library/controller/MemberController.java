@@ -31,7 +31,7 @@ public class MemberController {
 
     //GET MEMBER BY ID
     @GetMapping("/{memberId}")
-    public Optional<Member> getMemberById(@PathVariable Long memberId) {
+    public Member getMemberById(@PathVariable Long memberId) {
         return memberService.getMemberById(memberId);
     }
 

@@ -4,6 +4,8 @@ import com.project.library.dto.BorrowRecordDTO;
 import com.project.library.entity.Book;
 import com.project.library.entity.BorrowRecord;
 import com.project.library.entity.Member;
+import com.project.library.exception.BadRequestException;
+import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.BookRepository;
 import com.project.library.repository.BorrowRecordRepository;
 import com.project.library.repository.MemberRepository;
@@ -38,14 +40,14 @@ public class BorrowRecordService {
     public BorrowRecord borrowBook(Long memberId, Long bookId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() ->
-                        new RuntimeException("Member not found"));
+                        new ResourceNotFoundException("Member not found"));
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()->
-                        new RuntimeException("Book not found"));
+                        new ResourceNotFoundException("Book not found"));
 
         if (book.getAvailableCopies() <= 0) {
-            throw new RuntimeException("Book not available");
+            throw new BadRequestException("Book not available");
         }
 
         BorrowRecord borrowRecord = new BorrowRecord();
@@ -73,10 +75,10 @@ public class BorrowRecordService {
     public BorrowRecord returnBook(Long borrowRecordId) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(borrowRecordId)
                 .orElseThrow(()->
-                        new RuntimeException("Borrow Record Not Found"));
+                        new ResourceNotFoundException("Borrow Record Not Found"));
 
         if (borrowRecord.getReturnDate() != null) {
-            throw new RuntimeException("Book Already Returned");
+            throw new BadRequestException("Book Already Returned");
         }
 
         borrowRecord.setReturnDate(LocalDate.now());
