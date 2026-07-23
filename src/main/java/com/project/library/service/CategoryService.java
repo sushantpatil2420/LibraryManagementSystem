@@ -1,11 +1,11 @@
 package com.project.library.service;
 
 import com.project.library.entity.Category;
+import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -25,13 +25,18 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    // GET ALL CATEGORIES BY ID
-    public Optional<Category> getCategoryById(Long categoryId) {
-        return categoryRepository.findById(categoryId);
+    // GET CATEGORY BY ID
+    public Category getCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Category not found"));
     }
 
     // DELETE CATEGORY BY ID
     public void deleteCategory(Long categoryId) {
+        if (!categoryRepository.existsById(categoryId)) {
+            throw new ResourceNotFoundException("Category not found");
+        }
         categoryRepository.deleteById(categoryId);
     }
 }

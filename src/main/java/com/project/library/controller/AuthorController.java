@@ -28,11 +28,11 @@ public class AuthorController {
     }
 
     @GetMapping("/{authorId}")
-    public Optional<Author> getAuthorById(@PathVariable Long authorId) {
+    public Author getAuthorById(@PathVariable Long authorId) {
         return authorService.getAuthorById(authorId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{authorId}")
     public void deleteAuthor(@PathVariable Long authorId) {
         authorService.deleteAuthor(authorId);
     }

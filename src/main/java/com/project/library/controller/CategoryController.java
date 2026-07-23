@@ -5,7 +5,6 @@ import com.project.library.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -28,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public Optional<Category> getCategoryById(@PathVariable Long categoryId) {
+    public Category getCategoryById(@PathVariable Long categoryId) {
         return categoryService.getCategoryById(categoryId);
     }
 
