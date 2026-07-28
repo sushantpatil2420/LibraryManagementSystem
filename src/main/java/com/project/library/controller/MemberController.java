@@ -5,7 +5,6 @@ import com.project.library.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/members")
@@ -33,6 +32,12 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public Member getMemberById(@PathVariable Long memberId) {
         return memberService.getMemberById(memberId);
+    }
+
+    // UPDATE MEMBER
+    @PutMapping("/{memberId}")
+    public Member updateMember(@PathVariable Long memberId, @RequestBody Member member) {
+        return memberService.updateMember(memberId, member);
     }
 
     //DELETE MEMBER

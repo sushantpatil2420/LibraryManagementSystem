@@ -36,6 +36,17 @@ public class AuthorService {
                         new ResourceNotFoundException("Author not found"));
     }
 
+    // UPDATE AUTHOR
+    public Author updateAuthor(Long authorId, Author updatedAuthor) {
+        Author existingAuthor = authorRepository.findById(authorId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Author not found"));
+
+        existingAuthor.setAuthorName(updatedAuthor.getAuthorName());
+
+        return authorRepository.save(existingAuthor);
+    }
+
     // DELETE AUTHOR BY ID
     public void deleteAuthor(Long authorId) {
         if (!authorRepository.existsById(authorId)) {

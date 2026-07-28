@@ -5,7 +5,6 @@ import com.project.library.service.AuthorService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/authors")
@@ -30,6 +29,11 @@ public class AuthorController {
     @GetMapping("/{authorId}")
     public Author getAuthorById(@PathVariable Long authorId) {
         return authorService.getAuthorById(authorId);
+    }
+
+    @PutMapping("/{authorId}")
+    public Author updateAuthor(@PathVariable Long authorId, @RequestBody Author author) {
+        return authorService.updateAuthor(authorId, author);
     }
 
     @DeleteMapping("/{authorId}")

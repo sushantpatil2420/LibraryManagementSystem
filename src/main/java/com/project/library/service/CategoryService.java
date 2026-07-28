@@ -32,6 +32,17 @@ public class CategoryService {
                         new ResourceNotFoundException("Category not found"));
     }
 
+    // UPDATE CATEGORY
+    public Category updateCategory(Long categoryId, Category updatedCategory) {
+        Category existingCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Category not found"));
+
+        existingCategory.setCategoryName(updatedCategory.getCategoryName());
+
+        return categoryRepository.save(existingCategory);
+    }
+
     // DELETE CATEGORY BY ID
     public void deleteCategory(Long categoryId) {
         if (!categoryRepository.existsById(categoryId)) {

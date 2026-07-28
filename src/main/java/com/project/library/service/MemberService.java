@@ -6,7 +6,6 @@ import com.project.library.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -33,6 +32,21 @@ public class MemberService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Member not found"));
+    }
+
+    // UPDATE MEMBER
+    public Member updateMember(Long memberId, Member updatedMember) {
+        Member existingMember = memberRepository.findById(memberId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Member not found"));
+
+        existingMember.setMemberName(updatedMember.getMemberName());
+        existingMember.setMemberEmail(updatedMember.getMemberEmail());
+        existingMember.setMemberPhone(updatedMember.getMemberPhone());
+        existingMember.setMembershipDate(updatedMember.getMembershipDate());
+
+        return memberRepository.save(existingMember);
+
     }
 
     //  DELETE MEMBER

@@ -5,7 +5,6 @@ import com.project.library.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -30,6 +29,11 @@ public class BookController {
     @GetMapping("/{bookId}")
     public Book getBookById(@PathVariable Long bookId){
         return bookService.getBookById(bookId);
+    }
+
+    @PutMapping("/{bookId}")
+    public Book updateBook(@PathVariable Long bookId, @RequestBody Book book){
+        return bookService.updateBook(bookId, book);
     }
 
     @DeleteMapping("/{bookId}")

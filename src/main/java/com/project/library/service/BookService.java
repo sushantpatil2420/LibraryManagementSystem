@@ -33,6 +33,22 @@ public class BookService {
                         new ResourceNotFoundException("Book not found"));
     }
 
+    // UPDATE BOOK
+    public Book updateBook(Long bookId, Book updatedBook) {
+        Book existingBook = bookRepository.findById(bookId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Book not found"));
+
+        existingBook.setBookTitle(updatedBook.getBookTitle());
+        existingBook.setIsbn(updatedBook.getIsbn());
+        existingBook.setTotalCopies(updatedBook.getTotalCopies());
+        existingBook.setAvailableCopies(updatedBook.getAvailableCopies());
+        existingBook.setCategory(updatedBook.getCategory());
+        existingBook.setAuthors(updatedBook.getAuthors());
+
+        return bookRepository.save(existingBook);
+    }
+
     //DELETE BOOK BY ID
     public void deleteBook(Long bookId){
         if (!bookRepository.existsById(bookId)) {
