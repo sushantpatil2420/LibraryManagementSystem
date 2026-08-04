@@ -64,4 +64,10 @@ public class BookController {
     public List<Book> searchBookByAuthor(@PathVariable String authorName) {
         return bookService.searchBookByAuthor(authorName);
     }
+
+    // ALL AVAILABLE BOOKS
+    @GetMapping("/available")
+    public List<Book> getAvailableBooks() {
+        return bookService.getAvailableBooks();
+    }
 }

@@ -21,4 +21,7 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
 
     // OVERDUE BOOKS (NOT RETURNED + PAST DUE DATE)
     List<BorrowRecord> findByReturnDateIsNullAndDueDateBefore(LocalDate date);
+
+    // COUNT OF CURRENTLY BORROWED BOOKS FOR A SPECIFIC MEMBER
+    long countByMember_MemberIdAndReturnDateIsNull(Long memberId);
 }

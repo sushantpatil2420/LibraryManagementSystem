@@ -77,4 +77,9 @@ public class BookService {
         return bookRepository.findByAuthors_AuthorName(authorName);
     }
 
+    // ALL AVAILABLE BOOKS (AT LEAST 1 COPY LEFT)
+    public List<Book> getAvailableBooks() {
+        return bookRepository.findByAvailableCopiesGreaterThan(0);
+    }
+
 }

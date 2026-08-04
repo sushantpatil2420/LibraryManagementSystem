@@ -19,4 +19,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // SEARCH BOOKS BY AUTHOR NAME
     List<Book> findByAuthors_AuthorName(String authorName);
+
+    // BOOKS WITH AT LEAST ONE COPY AVAILABLE
+    List<Book> findByAvailableCopiesGreaterThan(int copies);
 }

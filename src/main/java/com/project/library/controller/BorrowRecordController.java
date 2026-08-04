@@ -54,4 +54,10 @@ public class BorrowRecordController {
     public List<BorrowRecordDTO> getOverdueBorrows() {
         return borrowRecordService.getOverdueBorrows();
     }
+
+    // COUNT OF CURRENTLY BORROWED BOOKS FOR A MEMBER
+    @GetMapping("/count/member/{memberId}")
+    public long getActiveBorrowCountByMember(@PathVariable Long memberId) {
+        return borrowRecordService.getActiveBorrowCountByMember(memberId);
+    }
 }

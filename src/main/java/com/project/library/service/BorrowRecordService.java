@@ -157,4 +157,12 @@ public class BorrowRecordService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+
+    // COUNT OF CURRENTLY BORROWED BOOKS FOR A MEMBER
+    public long getActiveBorrowCountByMember(Long memberId) {
+        if (!memberRepository.existsById(memberId)) {
+            throw new ResourceNotFoundException("Member not found");
+        }
+        return borrowRecordRepository.countByMember_MemberIdAndReturnDateIsNull(memberId);
+    }
 }
