@@ -2,6 +2,8 @@ package com.project.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 @Entity
@@ -12,6 +14,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorId;
 
+    @NotBlank(message = "Author name is required")
     private String authorName;
 
     @ManyToMany(mappedBy = "authors")

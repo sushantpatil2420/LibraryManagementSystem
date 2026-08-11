@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.entity.Book;
 import com.project.library.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class BookController {
     }
 
     @PostMapping
-    public Book saveBook(@RequestBody Book book){
+    public Book saveBook(@Valid @RequestBody Book book){
         return bookService.saveBook(book);
     }
 
@@ -32,7 +33,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
-    public Book updateBook(@PathVariable Long bookId, @RequestBody Book book){
+    public Book updateBook(@PathVariable Long bookId, @Valid @RequestBody Book book){
         return bookService.updateBook(bookId, book);
     }
 

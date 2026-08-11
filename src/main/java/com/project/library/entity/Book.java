@@ -1,6 +1,9 @@
 package com.project.library.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 @Entity
@@ -11,12 +14,16 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
 
+    @NotBlank(message = "Book title is required")
     private String bookTitle;
 
+    @NotBlank(message = "ISBN is required")
     @Column(unique = true)
     private String isbn;
 
+    @Min(value = 1, message = "Total copies must be at least 1")
     private int totalCopies;
+    
     private int availableCopies;
 
     @ManyToMany

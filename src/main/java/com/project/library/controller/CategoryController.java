@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.entity.Category;
 import com.project.library.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category saveCategory(@RequestBody Category category) {
+    public Category saveCategory(@Valid @RequestBody Category category) {
         return categoryService.saveCategory(category);
     }
 
@@ -31,8 +32,9 @@ public class CategoryController {
         return categoryService.getCategoryById(categoryId);
     }
 
+
     @PutMapping("/{categoryId}")
-    public Category updateCategory(@PathVariable Long categoryId, @RequestBody Category category) {
+    public Category updateCategory(@PathVariable Long categoryId, @Valid @RequestBody Category category) {
         return categoryService.updateCategory(categoryId, category);
     }
 

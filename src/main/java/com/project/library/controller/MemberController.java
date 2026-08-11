@@ -3,6 +3,7 @@ package com.project.library.controller;
 import com.project.library.entity.Member;
 import com.project.library.service.MemberService;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class MemberController {
 
     //ADD NEW MEMBER
     @PostMapping
-    public Member saveMember(@RequestBody Member member) {
+    public Member saveMember(@Valid @RequestBody Member member) {
         return memberService.saveMember(member);
     }
 
@@ -36,7 +37,7 @@ public class MemberController {
 
     // UPDATE MEMBER
     @PutMapping("/{memberId}")
-    public Member updateMember(@PathVariable Long memberId, @RequestBody Member member) {
+    public Member updateMember(@PathVariable Long memberId, @Valid @RequestBody Member member) {
         return memberService.updateMember(memberId, member);
     }
 

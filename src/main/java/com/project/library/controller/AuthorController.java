@@ -2,6 +2,7 @@ package com.project.library.controller;
 
 import com.project.library.entity.Author;
 import com.project.library.service.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public Author saveAuthor(@RequestBody Author author) {
+    public Author saveAuthor(@Valid @RequestBody Author author) {
         return authorService.saveAuthor(author);
     }
 
@@ -32,7 +33,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{authorId}")
-    public Author updateAuthor(@PathVariable Long authorId, @RequestBody Author author) {
+    public Author updateAuthor(@PathVariable Long authorId, @Valid @RequestBody Author author) {
         return authorService.updateAuthor(authorId, author);
     }
 

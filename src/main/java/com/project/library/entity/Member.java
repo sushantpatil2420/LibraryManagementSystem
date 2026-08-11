@@ -1,6 +1,9 @@
 package com.project.library.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
 
 @Entity
@@ -11,11 +14,15 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @NotBlank(message = "Member name is required")
     private String memberName;
 
+    @NotBlank(message = "Member email is required")
+    @Email(message = "Member email must be valid email address")
     @Column(unique = true)
     private String memberEmail;
 
+    @NotBlank(message = "Member phone number is required")
     private String memberPhone;
 
     private LocalDate membershipDate;
