@@ -3,6 +3,8 @@ package com.project.library.service;
 import com.project.library.entity.Member;
 import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,8 @@ public class MemberService {
     }
 
     //  GET ALL MEMBERS
-    public List<Member> getAllMembers() {
-        return memberRepository.findAll();
+    public Page<Member> getAllMembers(Pageable pageable) {
+        return memberRepository.findAll(pageable);
     }
 
     //  GET MEMBER BY ID

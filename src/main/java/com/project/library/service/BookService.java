@@ -3,7 +3,10 @@ package com.project.library.service;
 import com.project.library.entity.Book;
 import com.project.library.exception.ResourceNotFoundException;
 import com.project.library.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -21,9 +24,9 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    //GET ALL BOOKS
-    public List<Book> getAllBooks(){
-        return bookRepository.findAll();
+    //GET ALL BOOKS (PAGINATED)
+    public Page<Book> getAllBooks(Pageable pageable){
+        return bookRepository.findAll(pageable);
     }
 
     //GET BOOK BY ID

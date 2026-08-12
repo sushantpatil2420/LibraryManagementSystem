@@ -3,6 +3,9 @@ package com.project.library.controller;
 import com.project.library.entity.Book;
 import com.project.library.service.BookService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +26,11 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks(){
-        return bookService.getAllBooks();
+    public Page<Book> getAllBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return bookService.getAllBooks(pageable);
     }
 
     @GetMapping("/{bookId}")
